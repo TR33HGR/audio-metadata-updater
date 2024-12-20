@@ -4,16 +4,16 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="python-template-tr33hgr", # Replace with your own username
+    name="audio-metadata-updater",
     version="0.0.1",
     author="TR33HGR",
     author_email="",
-    description="A small example package",
+    description="Scripts to update the metadata for my audio files",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/TR33HGR/python-template",
+    url="https://github.com/TR33HGR/audio-metadate-updater",
     project_urls={
-        "Bug Tracker": "https://github.com/TR33HGR/python-template/issues",
+        "Bug Tracker": "https://github.com/TR33HGR/audio-metadate-updater/issues",
     },
     classifiers=[
         "Programming Language :: Python :: 3",

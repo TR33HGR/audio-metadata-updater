@@ -1,5 +1,5 @@
 from hamcrest import assert_that, is_
-from python_template.template import is_true
+from audio_metadata_updater.template import is_true
 
 
 def test():

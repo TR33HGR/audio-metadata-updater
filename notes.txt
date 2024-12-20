@@ -1,0 +1,5 @@
+todo list:
+  1. open audio file
+  2. get file current metadata
+  3. search for track in database
+  4. update file with database metadata
