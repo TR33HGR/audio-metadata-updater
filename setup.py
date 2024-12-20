@@ -25,6 +25,8 @@ setuptools.setup(
     install_requires=[
       "pathlib",
       "mutagen",
+      "python3-discogs-client",
+      "python-dotenv",
     ],
     python_requires=">=3.7",
 )
