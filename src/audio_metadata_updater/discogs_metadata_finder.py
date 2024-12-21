@@ -6,7 +6,7 @@ from audio_metadata_updater.metadata_extractor import ExtractedMetadata
 
 
 @dataclass
-class FoundMetadata:
+class DiscogsMetadata:
     artist: str
     album: str
     year: int
@@ -17,21 +17,21 @@ class FoundMetadata:
     label: str
 
 
-class MetadataFinder():
+class DiscogsMetadataFinder():
     def __init__(self):
         self._client = discogs_client.Client(
             "audio-metadata-updater/1.0",
-            user_token=os.getenv("TOKEN"),
+            user_token=os.getenv("DISCOGS_TOKEN"),
         )
 
-    def find_metadata(self, track: ExtractedMetadata) -> FoundMetadata:
+    def find_metadata(self, track: ExtractedMetadata) -> DiscogsMetadata:
         releases = self._client.search(
             track.track_name,
             artist=track.artist,
             type="release"
         )
 
-        return FoundMetadata(
+        return DiscogsMetadata(
             releases[0].artists[0].name,
             releases[0].title,
             releases[0].year,

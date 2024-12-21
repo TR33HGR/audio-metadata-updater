@@ -5,15 +5,15 @@ from hamcrest import \
   contains_inanyorder
 
 from audio_metadata_updater.metadata_extractor import ExtractedMetadata
-from audio_metadata_updater.metadata_finder import MetadataFinder
+from audio_metadata_updater.discogs_metadata_finder import DiscogsMetadataFinder
 
 
-def test_metadata_finder_finds_metadata_given_extracted_metadata():
+def test_discogs_metadata_finder_finds_metadata_given_extracted_metadata():
     expected_genres = ["Pop"]
     expected_styles = ["K-pop"]
 
     # Given
-    metadata_finder = MetadataFinder()
+    metadata_finder = DiscogsMetadataFinder()
     extracted_metadata = ExtractedMetadata("RUN2U", "STAYC", 1)
 
     # When
