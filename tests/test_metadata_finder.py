@@ -11,7 +11,7 @@ from audio_metadata_updater.metadata_finder import MetadataFinder
 def test_metadata_finder_finds_correct_artist_given_extracted_metadata():
     # Given
     metadata_finder = MetadataFinder()
-    extracted_metadata = ExtractedMetadata("RUN2U", "STAYC")
+    extracted_metadata = ExtractedMetadata("RUN2U", "STAYC", 1)
 
     # When
     found_metadata = metadata_finder.find_metadata(extracted_metadata)
@@ -26,7 +26,7 @@ def test_metadata_finder_finds_correct_artist_given_extracted_metadata():
 def test_metadata_finder_finds_album_name_given_extracted_metadata():
     # Given
     metadata_finder = MetadataFinder()
-    extracted_metadata = ExtractedMetadata("RUN2U", "STAYC")
+    extracted_metadata = ExtractedMetadata("RUN2U", "STAYC", 1)
 
     # When
     found_metadata = metadata_finder.find_metadata(extracted_metadata)
@@ -41,7 +41,7 @@ def test_metadata_finder_finds_album_name_given_extracted_metadata():
 def test_metadata_finder_finds_release_year_given_extracted_metadata():
     # Given
     metadata_finder = MetadataFinder()
-    extracted_metadata = ExtractedMetadata("RUN2U", "STAYC")
+    extracted_metadata = ExtractedMetadata("RUN2U", "STAYC", 1)
 
     # When
     found_metadata = metadata_finder.find_metadata(extracted_metadata)
@@ -59,7 +59,7 @@ def test_metadata_finder_finds_genres_and_styles_given_extracted_metadata():
 
     # Given
     metadata_finder = MetadataFinder()
-    extracted_metadata = ExtractedMetadata("RUN2U", "STAYC")
+    extracted_metadata = ExtractedMetadata("RUN2U", "STAYC", 1)
 
     # When
     found_metadata = metadata_finder.find_metadata(extracted_metadata)

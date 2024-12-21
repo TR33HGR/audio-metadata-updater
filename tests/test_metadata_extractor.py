@@ -91,3 +91,47 @@ def test_metadata_extractor_returns_artist_from_aifs():
 
     # Then
     assert_that(metadata.artist, is_("Mountain Man"))
+
+
+def test_metadata_extractor_returns_english_track_number_from_flacs():
+    # Given
+    audio_file = Path("res/how_sweet.flac")
+
+    # When
+    metadata = extract_metadata_from_file(audio_file)
+
+    # Then
+    assert_that(metadata.track_number, is_(1))
+
+
+def test_metadata_extractor_returns_track_number_from_wmas():
+    # Given
+    audio_file = Path("res/RUN2U.wma")
+
+    # When
+    metadata = extract_metadata_from_file(audio_file)
+
+    # Then
+    assert_that(metadata.track_number, is_(1))
+
+
+def test_metadata_extractor_returns_track_number_from_aiffs():
+    # Given
+    audio_file = Path("res/Martini.aiff")
+
+    # When
+    metadata = extract_metadata_from_file(audio_file)
+
+    # Then
+    assert_that(metadata.track_number, is_(1))
+
+
+def test_metadata_extractor_returns_track_number_from_aifs():
+    # Given
+    audio_file = Path("res/Buffalo.aif")
+
+    # When
+    metadata = extract_metadata_from_file(audio_file)
+
+    # Then
+    assert_that(metadata.track_number, is_(1))
