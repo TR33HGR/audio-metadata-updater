@@ -73,3 +73,48 @@ def test_metadata_finder_finds_genres_and_styles_given_extracted_metadata():
         found_metadata.styles,
         contains_inanyorder(*expected_styles)
     )
+
+
+def test_metadata_finder_finds_track_name_given_extracted_metadata():
+    # Given
+    metadata_finder = MetadataFinder()
+    extracted_metadata = ExtractedMetadata("RUN2U", "STAYC", 1)
+
+    # When
+    found_metadata = metadata_finder.find_metadata(extracted_metadata)
+
+    # Then
+    assert_that(
+        found_metadata.track_name,
+        equal_to_ignoring_case("RUN2U")
+    )
+
+
+def test_metadata_finder_finds_track_origin_country_given_extracted_metadata():
+    # Given
+    metadata_finder = MetadataFinder()
+    extracted_metadata = ExtractedMetadata("RUN2U", "STAYC", 1)
+
+    # When
+    found_metadata = metadata_finder.find_metadata(extracted_metadata)
+
+    # Then
+    assert_that(
+        found_metadata.country,
+        equal_to_ignoring_case("South Korea")
+    )
+
+
+def test_metadata_finder_finds_label_given_extracted_metadata():
+    # Given
+    metadata_finder = MetadataFinder()
+    extracted_metadata = ExtractedMetadata("RUN2U", "STAYC", 1)
+
+    # When
+    found_metadata = metadata_finder.find_metadata(extracted_metadata)
+
+    # Then
+    assert_that(
+        found_metadata.label,
+        equal_to_ignoring_case("High Up Entertainment")
+    )

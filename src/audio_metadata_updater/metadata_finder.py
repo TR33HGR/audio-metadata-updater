@@ -12,6 +12,9 @@ class FoundMetadata:
     year: int
     genres: List[str]
     styles: List[str]
+    track_name: str
+    country: str
+    label: str
 
 
 class MetadataFinder():
@@ -34,4 +37,7 @@ class MetadataFinder():
             releases[0].year,
             releases[0].genres,
             releases[0].styles,
+            releases[0].tracklist[track.track_number-1].title,
+            releases[0].country,
+            releases[0].labels[0].name,
         )
