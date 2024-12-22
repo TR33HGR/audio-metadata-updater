@@ -58,3 +58,54 @@ def test_discogs_metadata_finder_finds_metadata_given_extracted_metadata():
         found_metadata.label,
         equal_to_ignoring_case("High Up Entertainment")
     )
+
+
+def test_discogs_metadata_finder_finds_original_album_when_given_compilation():
+    expected_genres = ["Hip Hop"]
+    expected_styles = []
+
+    # Given
+    metadata_finder = DiscogsMetadataFinder()
+    extracted_metadata = ExtractedMetadata(
+        "The Bronx",
+        "Kurtis Blow",
+        10,
+        "Electro: The Definitive Electro & Hip Hop Collection"
+    )
+
+    # When
+    found_metadata = metadata_finder.find_metadata(extracted_metadata)
+
+    # Then
+    assert_that(
+        found_metadata.artist,
+        equal_to_ignoring_case(extracted_metadata.artist)
+    )
+    assert_that(
+        found_metadata.album,
+        equal_to_ignoring_case("The Bronx")
+    )
+    assert_that(
+        found_metadata.year,
+        is_(1986)
+    )
+    assert_that(
+        found_metadata.genres,
+        contains_inanyorder(*expected_genres)
+    )
+    assert_that(
+        found_metadata.styles,
+        contains_inanyorder(*expected_styles)
+    )
+    assert_that(
+        found_metadata.track_name,
+        equal_to_ignoring_case("The Bronx")
+    )
+    assert_that(
+        found_metadata.country,
+        equal_to_ignoring_case("US")
+    )
+    assert_that(
+        found_metadata.label,
+        equal_to_ignoring_case("Mercury")
+    )
