@@ -12,7 +12,12 @@ def test_last_fm_metadata_finder_finds_metadata_given_extracted_metadata():
 
     # Given
     metadata_finder = LastFMMetadataFinder()
-    extracted_metadata = ExtractedMetadata("RUN2U", "STAYC", 1, "Young-Luv.com")
+    extracted_metadata = ExtractedMetadata(
+        "RUN2U",
+        "STAYC",
+        1,
+        "Young-Luv.com"
+    )
 
     # When
     found_metadata = metadata_finder.find_metadata(extracted_metadata)
