@@ -10,6 +10,7 @@ class ExtractedMetadata:
     track_name: str
     artist: str
     track_number: int
+    album: str
 
 
 def extract_metadata_from_file(audio_file: Path) -> ExtractedMetadata:
@@ -20,6 +21,7 @@ def extract_metadata_from_file(audio_file: Path) -> ExtractedMetadata:
             metadata_file.get("Title")[0],
             metadata_file.get("Author")[0],
             int(str(metadata_file.get("WM/TrackNumber")[0])),
+            str(metadata_file.get("WM/AlbumTitle")[0]),
         )
 
     if audio_file.suffix in (".aiff", ".aif"):
@@ -28,6 +30,7 @@ def extract_metadata_from_file(audio_file: Path) -> ExtractedMetadata:
             metadata_file.get("TIT2")[0],
             metadata_file.get("TPE1")[0],
             int(metadata_file.get("TRCK")[0]),
+            metadata_file.get("TALB")[0],
         )
 
     metadata_file = File(audio_file)
@@ -35,4 +38,5 @@ def extract_metadata_from_file(audio_file: Path) -> ExtractedMetadata:
         metadata_file.get("title")[0],
         metadata_file.get("artist")[0],
         int(metadata_file.get("tracknumber")[0]),
+        metadata_file.get("album")[0],
     )

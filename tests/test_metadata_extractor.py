@@ -16,6 +16,7 @@ def test_metadata_extractor_returns_metadata_from_flacs():
     assert_that(metadata.track_name, is_("How Sweet"))
     assert_that(metadata.artist, is_("New Jeans"))
     assert_that(metadata.track_number, is_(1))
+    assert_that(metadata.album, is_("How Sweet & Bubble Gum"))
 
 
 def test_metadata_extractor_returns_metadata_from_wmas():
@@ -29,6 +30,7 @@ def test_metadata_extractor_returns_metadata_from_wmas():
     assert_that(metadata.track_name, is_("RUN2U"))
     assert_that(metadata.artist, is_("STAYC"))
     assert_that(metadata.track_number, is_(1))
+    assert_that(metadata.album, is_("YOUNG-LUV.COM"))
 
 
 def test_metadata_extractor_returns_metadata_from_aiffs():
@@ -42,6 +44,7 @@ def test_metadata_extractor_returns_metadata_from_aiffs():
     assert_that(metadata.track_name, is_("Martini"))
     assert_that(metadata.artist, is_("device operator"))
     assert_that(metadata.track_number, is_(1))
+    assert_that(metadata.album, is_("Cherry Fortune"))
 
 
 def test_metadata_extractor_returns_metadata_from_aifs():
@@ -55,3 +58,4 @@ def test_metadata_extractor_returns_metadata_from_aifs():
     assert_that(metadata.track_name, is_("Buffalo"))
     assert_that(metadata.artist, is_("Mountain Man"))
     assert_that(metadata.track_number, is_(1))
+    assert_that(metadata.album, is_("Made the Harbor"))
