@@ -60,7 +60,7 @@ def test_discogs_metadata_finder_finds_metadata_given_extracted_metadata():
     )
 
 
-def test_discogs_metadata_finder_finds_original_album_when_given_compilation():
+def test_discogs_metadata_finder_finds_original_album_data_given_compilation():
     expected_genres = ["Hip Hop"]
     expected_styles = []
 
@@ -83,7 +83,7 @@ def test_discogs_metadata_finder_finds_original_album_when_given_compilation():
     )
     assert_that(
         found_metadata.album,
-        equal_to_ignoring_case("The Bronx")
+        equal_to_ignoring_case("The Definitive Electro & Hip Hop Collection")
     )
     assert_that(
         found_metadata.year,
@@ -108,4 +108,24 @@ def test_discogs_metadata_finder_finds_original_album_when_given_compilation():
     assert_that(
         found_metadata.label,
         equal_to_ignoring_case("Mercury")
+    )
+
+
+def test_discogs_metadata_finder_returns_none_if_track_not_found():
+    # Given
+    metadata_finder = DiscogsMetadataFinder()
+    extracted_metadata = ExtractedMetadata(
+        "ddflkja",
+        "ojhalf",
+        10,
+        "okjhfoasihfjo"
+    )
+
+    # When
+    found_metadata = metadata_finder.find_metadata(extracted_metadata)
+
+    # Then
+    assert_that(
+        found_metadata,
+        is_(None)
     )
