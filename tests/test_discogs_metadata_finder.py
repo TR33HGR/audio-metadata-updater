@@ -5,7 +5,8 @@ from hamcrest import \
   contains_inanyorder
 
 from audio_metadata_updater.metadata_extractor import ExtractedMetadata
-from audio_metadata_updater.discogs_metadata_finder import DiscogsMetadataFinder
+from audio_metadata_updater.discogs_metadata_finder \
+    import DiscogsMetadataFinder
 
 
 def test_discogs_metadata_finder_finds_metadata_given_extracted_metadata():
