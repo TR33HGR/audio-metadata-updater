@@ -18,7 +18,7 @@ def are_duplicates(tag1: str, tag2: str, threshold=0.7) -> bool:
     return SequenceMatcher(None, tag1, tag2).ratio() > threshold
 
 
-def longest_tag(tag1, tag2):
+def longest_tag(tag1: str, tag2: str) -> bool:
     return tag1 if len(tag1) >= len(tag2) else tag2
 
 
