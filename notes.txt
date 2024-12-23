@@ -3,3 +3,14 @@ todo list:
   2. get file current metadata
   3. search for track in database
   4. update file with database metadata
+
+
+problems:
+  1. ghost girls generation - airattic: no lastfm tags found
+  2. NME Presents The Essential Bands: get trackname for compliation album problems due to comp from 3 different years having the same title
+  3. why get track index for song on non comp album when you can extract track name from track index in comp album (discogs)
+  4. overture - Ringwanderung appears on both synchrotron and Synchronism
+  5. add None check to all get() calls
+  6. include current album in search
+  7. include current year in search
+  8. Songs about Jane seem to be getting album from different years for each track (discogs)
