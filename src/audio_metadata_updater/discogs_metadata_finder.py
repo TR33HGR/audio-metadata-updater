@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from difflib import SequenceMatcher
 import difflib
 import os
-from typing import List
+from typing import List, Tuple
 import discogs_client
 from audio_metadata_updater.metadata_extractor import ExtractedMetadata
 
@@ -25,13 +25,8 @@ def same_album(album1: str, album2: str, threshold=0.7) -> bool:
     ).ratio() > threshold
 
 
-def get_track_index(track: str, album_tracklist: List[str]) -> int:
-    album_tracklist = [track.title for track in album_tracklist]
-    matching_track = difflib.get_close_matches(
-        track, album_tracklist, n=1, cutoff=0.6
-    )
-    return album_tracklist.index(matching_track[0])
-
+def get_album(title: str) -> str:
+    return title if not " - " in title else title.split(" - ")[1]
 
 class DiscogsMetadataFinder():
     def __init__(self):
@@ -50,28 +45,36 @@ class DiscogsMetadataFinder():
         if len(releases) == 0:
             return None
 
+        artist = releases[0].artists[0].name
+        album = get_album(releases[0].title)
+        year = releases[0].year
+        genres = releases[0].genres
+        styles = releases[0].styles
+        country = releases[0].country
+        label = releases[0].labels[0].name
+
         track_index = track.track_number-1
-        album = releases[0].title.split(" - ")[1]
         if not same_album(track.album, album):
-            track_index = get_track_index(
-                track.track_name, releases[0].tracklist
-            )
-            album = self._get_compilation_release(track.album).split(" - ")[1]
+            title, tracklist = self._get_compilation_release(track.album)
+            album = get_album(title)
+            track_name = tracklist[track_index].title
+        else:
+            track_name = releases[0].tracklist[track_index].title
 
         return DiscogsMetadata(
-            releases[0].artists[0].name,
+            artist,
             album,
-            releases[0].year,
-            releases[0].genres,
-            releases[0].styles,
-            releases[0].tracklist[track_index].title,
-            releases[0].country,
-            releases[0].labels[0].name,
+            year,
+            genres,
+            styles,
+            track_name,
+            country,
+            label,
         )
 
-    def _get_compilation_release(self, track_album: str) -> str:
+    def _get_compilation_release(self, track_album: str) -> Tuple[str, str]:
         releases = self._client.search(
             track_album,
             type="release"
         )
-        return releases[0].title
+        return releases[0].title, releases[0].tracklist
