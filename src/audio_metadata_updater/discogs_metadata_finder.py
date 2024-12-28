@@ -15,8 +15,6 @@ class DiscogsMetadata:
     genres: List[str]
     styles: List[str]
     track_name: str
-    country: str
-    label: str
 
 
 def same_album(album1: str, album2: str, threshold=0.7) -> bool:
@@ -45,6 +43,7 @@ class DiscogsMetadataFinder():
         releases = self._client.search(
             track.track_name,
             artist=track.artist,
+            format="album",
             type="release"
         )
 
@@ -58,8 +57,6 @@ class DiscogsMetadataFinder():
         year = release.year
         genres = release.genres
         styles = release.styles
-        country = release.country
-        label = release.labels[0].name
 
         track_index = track.track_number-1
         if not same_album(track.album, album):
@@ -76,8 +73,6 @@ class DiscogsMetadataFinder():
             genres,
             styles,
             track_name,
-            country,
-            label,
         )
 
     def _get_compilation_release(self, track_album: str) -> Tuple[str, str]:

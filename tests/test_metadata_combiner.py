@@ -27,8 +27,6 @@ def test_metadata_combiner_returns_metadata_from_discogs_if_last_fm_in_none():
         ["genre"],
         ["style"],
         "track_name",
-        "country",
-        "label"
     )
     last_fm_metadata = None
 
@@ -55,14 +53,6 @@ def test_metadata_combiner_returns_metadata_from_discogs_if_last_fm_in_none():
     assert_that(
         combined_metadata.track_name,
         is_(discogs_metadata.track_name)
-    )
-    assert_that(
-        combined_metadata.country,
-        is_(discogs_metadata.country)
-    )
-    assert_that(
-        combined_metadata.label,
-        is_(discogs_metadata.label)
     )
 
 
@@ -100,14 +90,6 @@ def test_metadata_combiner_returns_metadata_from_last_fm_if_discogs_in_none():
         combined_metadata.track_name,
         is_(last_fm_metadata.track_name)
     )
-    assert_that(
-        combined_metadata.country,
-        is_(None)
-    )
-    assert_that(
-        combined_metadata.label,
-        is_(None)
-    )
 
 
 def test_metadata_combiner_prefers_discogs():
@@ -119,8 +101,6 @@ def test_metadata_combiner_prefers_discogs():
         ["discogs_genre"],
         ["discogs_style"],
         "discogs_track_name",
-        "discogs_country",
-        "discogs_label"
     )
     last_fm_metadata = LastFMMetadata(
         "last_fm_artist",
@@ -153,14 +133,6 @@ def test_metadata_combiner_prefers_discogs():
         combined_metadata.track_name,
         is_(discogs_metadata.track_name)
     )
-    assert_that(
-        combined_metadata.country,
-        is_(discogs_metadata.country)
-    )
-    assert_that(
-        combined_metadata.label,
-        is_(discogs_metadata.label)
-    )
 
 
 def test_metadata_combiner_uses_last_fm_tags_if_no_discogs_styles():
@@ -172,8 +144,6 @@ def test_metadata_combiner_uses_last_fm_tags_if_no_discogs_styles():
         ["discogs_genre"],
         [],
         "discogs_track_name",
-        "discogs_country",
-        "discogs_label"
     )
     last_fm_metadata = LastFMMetadata(
         "last_fm_artist",

@@ -50,14 +50,6 @@ def test_discogs_metadata_finder_finds_metadata_given_extracted_metadata():
         found_metadata.track_name,
         equal_to_ignoring_case("RUN2U")
     )
-    assert_that(
-        found_metadata.country,
-        equal_to_ignoring_case("South Korea")
-    )
-    assert_that(
-        found_metadata.label,
-        equal_to_ignoring_case("High Up Entertainment")
-    )
 
 
 def test_discogs_metadata_finder_finds_original_album_data_given_compilation():
@@ -100,14 +92,6 @@ def test_discogs_metadata_finder_finds_original_album_data_given_compilation():
     assert_that(
         found_metadata.track_name,
         equal_to_ignoring_case("The Bronx")
-    )
-    assert_that(
-        found_metadata.country,
-        equal_to_ignoring_case("US")
-    )
-    assert_that(
-        found_metadata.label,
-        equal_to_ignoring_case("Mercury")
     )
 
 

@@ -76,6 +76,40 @@ def test_last_fm_metadata_finder_finds_tags_from_artist_if_no_track_tags_found()
     )
 
 
+def test_last_fm_metadata_finder_queies_album_metadata_if_track_metadata_not_found():
+    expected_tags = ["japan", "J-rock", "J-Emo", "japanese", "j-alternative rock", "j-shoegaze", "j-dream pop", "alt-idol", "j-pixie"]
+
+    # Given
+    metadata_finder = LastFMMetadataFinder()
+    extracted_metadata = ExtractedMetadata(
+        "オイルド・クラーケン",
+        "airattic",
+        2,
+        "Whatever"
+    )
+
+    # When
+    found_metadata = metadata_finder.find_metadata(extracted_metadata)
+
+    # Then
+    assert_that(
+        found_metadata.artist,
+        equal_to_ignoring_case(extracted_metadata.artist)
+    )
+    assert_that(
+        found_metadata.album,
+        equal_to_ignoring_case("Whatever")
+    )
+    assert_that(
+        found_metadata.tags,
+        contains_inanyorder(*expected_tags)
+    )
+    assert_that(
+        found_metadata.track_name,
+        equal_to_ignoring_case("オイルド・クラーケン")
+    )
+
+
 def test_last_fm_metadata_finder_finds_original_album_data_given_compilation():
     expected_tags = ["Hip-Hop", "80s", "rap", "needleontherecord", "NYC"]
 

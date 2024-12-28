@@ -10,8 +10,6 @@ class Metadata:
     year: int
     genre: str
     track_name: str
-    country: str
-    label: str
 
 
 def combine_metadata(
@@ -29,6 +27,4 @@ def combine_metadata(
         discogs.year if discogs else None,
         genre.title(),
         discogs.track_name if discogs else last_fm.track_name,
-        discogs.country if discogs else None,
-        discogs.label if discogs else None,
     )

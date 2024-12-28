@@ -61,7 +61,7 @@ class LastFMMetadataFinder():
 
         artist = metadata.get("artist").get("name")
 
-        album = metadata.get("album").get("title")
+        album = metadata.get("album").get("title") if metadata.get("album") else self._get_album(track.album, artist)
 
         track_name = metadata.get("name")
 
@@ -97,6 +97,25 @@ class LastFMMetadataFinder():
 
         if response.status_code != 200:
             print(f"Error: get comp album: {response.status_code}")
+            return None
+
+        metadata = response.json().get("album")
+        return metadata.get("name")
+
+    def _get_album(self, album: str, artist: str) -> str:
+        params = self._base_request_params
+        params["method"] = "album.getInfo"
+        params["album"] = album
+        params["artist"] = artist
+
+        response = requests.get(
+            self._api_url,
+            params=params,
+            timeout=5
+        )
+
+        if response.status_code != 200:
+            print(f"Error: get album: {response.status_code}")
             return None
 
         metadata = response.json().get("album")
