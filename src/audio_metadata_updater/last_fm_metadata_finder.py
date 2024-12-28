@@ -6,6 +6,9 @@ import requests
 from audio_metadata_updater.metadata_extractor import ExtractedMetadata
 
 
+COUNTRIES = ["japan", "japanese", "korea", "korean"]
+
+
 @dataclass
 class LastFMMetadata:
     artist: str
@@ -139,6 +142,8 @@ class LastFMMetadataFinder():
     def filter_tags(self, tags: List[str]) -> List[str]:
         filtered_tags = []
         tags = [tag.lower() for tag in tags]
+
+        tags = [tag for tag in tags if tag not in COUNTRIES]
 
         for tag in tags:
             for i, filtered_tag in enumerate(filtered_tags):

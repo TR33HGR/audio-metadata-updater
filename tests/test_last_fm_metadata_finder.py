@@ -181,3 +181,20 @@ def test_last_fm_metadata_finder_tags_filter_formats_tags_to_title_case():
         filtered_tags,
         contains_inanyorder(*expected_tags)
     )
+
+
+def test_last_fm_metadata_finder_tags_filter_removes_country_from_tags():
+    expected_tags = ["J-Rock", "J-Emo", "J-Alternative Rock", "J-Shoegaze", "J-Dream Pop", "Alt-Idol", "J-Pixie"]
+
+    # Given
+    metadata_finder = LastFMMetadataFinder()
+    found_tags = ["japan", "J-rock", "J-Emo", "japanese", "j-alternative rock", "j-shoegaze", "j-dream pop", "alt-idol", "j-pixie"]
+
+    # When
+    filtered_tags = metadata_finder.filter_tags(found_tags)
+
+    # Then
+    assert_that(
+        filtered_tags,
+        contains_inanyorder(*expected_tags)
+    )
