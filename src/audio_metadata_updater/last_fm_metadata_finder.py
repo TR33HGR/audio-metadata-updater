@@ -139,19 +139,19 @@ class LastFMMetadataFinder():
         metadata = response.json().get("toptags")
         return [tag["name"] for tag in metadata.get("tag")]
 
-    def filter_tags(self, tags: List[str]) -> List[str]:
-        filtered_tags = []
-        tags = [tag.lower() for tag in tags]
+def filter_tags(tags: List[str]) -> List[str]:
+    filtered_tags = []
+    tags = [tag.lower() for tag in tags]
 
-        tags = [tag for tag in tags if tag not in COUNTRIES]
+    tags = [tag for tag in tags if tag not in COUNTRIES]
 
-        for tag in tags:
-            for i, filtered_tag in enumerate(filtered_tags):
-                if are_duplicates(tag, filtered_tag):
-                    filtered_tags[i] = longest_tag(tag, filtered_tag)
-                    break
-            else:
-                filtered_tags.append(tag)
+    for tag in tags:
+        for i, filtered_tag in enumerate(filtered_tags):
+            if are_duplicates(tag, filtered_tag):
+                filtered_tags[i] = longest_tag(tag, filtered_tag)
+                break
+        else:
+            filtered_tags.append(tag)
 
-        filtered_tags = [tag.title() for tag in filtered_tags]
-        return filtered_tags
+    filtered_tags = [tag.title() for tag in filtered_tags]
+    return filtered_tags

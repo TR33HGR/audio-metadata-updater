@@ -4,7 +4,7 @@ from hamcrest import \
   equal_to_ignoring_case, \
   is_
 
-from audio_metadata_updater.last_fm_metadata_finder import LastFMMetadataFinder
+from audio_metadata_updater.last_fm_metadata_finder import LastFMMetadataFinder, filter_tags
 from audio_metadata_updater.metadata_extractor import ExtractedMetadata
 
 
@@ -136,11 +136,10 @@ def test_last_fm_metadata_finder_tags_filter_removes_duplicate_tags():
     expected_tags = ["K-Pop"]
 
     # Given
-    metadata_finder = LastFMMetadataFinder()
     found_tags = ["K-Pop", "Kpop"]
 
     # When
-    filtered_tags = metadata_finder.filter_tags(found_tags)
+    filtered_tags = filter_tags(found_tags)
 
     # Then
     assert_that(
@@ -153,11 +152,10 @@ def test_last_fm_metadata_finder_tags_filter_favours_more_specific_tags():
     expected_tags = ["K-Pop", "Electroclash"]
 
     # Given
-    metadata_finder = LastFMMetadataFinder()
     found_tags = ["Pop", "K-Pop", "Electronic", "Electroclash"]
 
     # When
-    filtered_tags = metadata_finder.filter_tags(found_tags)
+    filtered_tags = filter_tags(found_tags)
 
     # Then
     assert_that(
@@ -170,11 +168,10 @@ def test_last_fm_metadata_finder_tags_filter_formats_tags_to_title_case():
     expected_tags = ["K-Pop"]
 
     # Given
-    metadata_finder = LastFMMetadataFinder()
     found_tags = ["k-pop"]
 
     # When
-    filtered_tags = metadata_finder.filter_tags(found_tags)
+    filtered_tags = filter_tags(found_tags)
 
     # Then
     assert_that(
@@ -187,11 +184,10 @@ def test_last_fm_metadata_finder_tags_filter_removes_country_from_tags():
     expected_tags = ["J-Rock", "J-Emo", "J-Alternative Rock", "J-Shoegaze", "J-Dream Pop", "Alt-Idol", "J-Pixie"]
 
     # Given
-    metadata_finder = LastFMMetadataFinder()
     found_tags = ["japan", "J-rock", "J-Emo", "japanese", "j-alternative rock", "j-shoegaze", "j-dream pop", "alt-idol", "j-pixie"]
 
     # When
-    filtered_tags = metadata_finder.filter_tags(found_tags)
+    filtered_tags = filter_tags(found_tags)
 
     # Then
     assert_that(

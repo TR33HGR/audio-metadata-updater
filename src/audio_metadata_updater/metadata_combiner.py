@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from audio_metadata_updater.discogs_metadata_finder import DiscogsMetadata
-from audio_metadata_updater.last_fm_metadata_finder import LastFMMetadata
+from audio_metadata_updater.last_fm_metadata_finder import LastFMMetadata, filter_tags
 
 
 @dataclass
@@ -21,7 +21,7 @@ def combine_metadata(
         return None
 
     genre = discogs.styles[0] if discogs and len(discogs.styles) \
-        else last_fm.tags[0]
+        else filter_tags(last_fm.tags)[0]
 
     return Metadata(
         discogs.artist if discogs else last_fm.artist,
