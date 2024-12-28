@@ -56,17 +56,28 @@ class LastFMMetadataFinder():
         if metadata is None:
             return None
 
+        artist = metadata.get("artist").get("name")
+
         album = metadata.get("album").get("title")
+
+        track_name = metadata.get("name")
+
+        tags = [tag["name"] for tag in metadata.get("toptags").get("tag")]
+        if len(tags) is 0:
+            tags = self._get_album_tags(album, artist)
+        if len(tags) is 0:
+            tags = self._get_artist_tags(artist)
+
         if not same_album(track.album, album):
             album = self._get_compilation_album(track.album)
             if album is None:
                 return None
 
         return LastFMMetadata(
-            metadata.get("artist").get("name"),
+            artist,
             album,
-            metadata.get("name"),
-            [tag["name"] for tag in metadata.get("toptags").get("tag")]
+            track_name,
+            tags
         )
 
     def _get_compilation_album(self, track_album: str) -> str:
@@ -87,6 +98,43 @@ class LastFMMetadataFinder():
 
         metadata = response.json().get("album")
         return metadata.get("name")
+
+    def _get_album_tags(self, album: str, artist: str) -> List[str]:
+        params = self._base_request_params
+        params["method"] = "album.getTopTags"
+        params["album"] = album
+        params["artist"] = artist
+
+        response = requests.get(
+            self._api_url,
+            params=params,
+            timeout=5
+        )
+
+        if response.status_code != 200:
+            print(f"Error: get tags: {response.status_code}")
+            return None
+
+        metadata = response.json().get("toptags")
+        return [tag["name"] for tag in metadata.get("tag")]
+
+    def _get_artist_tags(self, artist: str) -> List[str]:
+        params = self._base_request_params
+        params["method"] = "artist.getTopTags"
+        params["artist"] = artist
+
+        response = requests.get(
+            self._api_url,
+            params=params,
+            timeout=5
+        )
+
+        if response.status_code != 200:
+            print(f"Error: get tags: {response.status_code}")
+            return None
+
+        metadata = response.json().get("toptags")
+        return [tag["name"] for tag in metadata.get("tag")]
 
     def filter_tags(self, tags: List[str]) -> List[str]:
         filtered_tags = []
