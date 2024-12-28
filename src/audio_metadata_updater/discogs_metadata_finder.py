@@ -28,6 +28,12 @@ def same_album(album1: str, album2: str, threshold=0.7) -> bool:
 def get_album(title: str) -> str:
     return title if not " - " in title else title.split(" - ")[1]
 
+
+def oldest_release(releases):
+    releases = [release for release in releases if int(release.year) > 0]
+    return sorted(releases, key=lambda release: int(release.year))[0]
+
+
 class DiscogsMetadataFinder():
     def __init__(self):
         self._client = discogs_client.Client(
@@ -45,13 +51,15 @@ class DiscogsMetadataFinder():
         if len(releases) == 0:
             return None
 
-        artist = releases[0].artists[0].name
-        album = get_album(releases[0].title)
-        year = releases[0].year
-        genres = releases[0].genres
-        styles = releases[0].styles
-        country = releases[0].country
-        label = releases[0].labels[0].name
+        release = oldest_release(releases)
+
+        artist = release.artists[0].name
+        album = get_album(release.title)
+        year = release.year
+        genres = release.genres
+        styles = release.styles
+        country = release.country
+        label = release.labels[0].name
 
         track_index = track.track_number-1
         if not same_album(track.album, album):
@@ -59,7 +67,7 @@ class DiscogsMetadataFinder():
             album = get_album(title)
             track_name = tracklist[track_index].title
         else:
-            track_name = releases[0].tracklist[track_index].title
+            track_name = release.tracklist[track_index].title
 
         return DiscogsMetadata(
             artist,
@@ -77,4 +85,6 @@ class DiscogsMetadataFinder():
             track_album,
             type="release"
         )
-        return releases[0].title, releases[0].tracklist
+        releases = [release for release in releases if same_album(get_album(release.title), track_album)]
+        release = oldest_release(releases)
+        return release.title, release.tracklist
