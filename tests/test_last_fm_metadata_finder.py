@@ -87,7 +87,7 @@ def test_last_fm_metadata_finder_finds_tags_from_artist_if_no_track_tags_found()
     )
 
 
-def test_last_fm_metadata_finder_queies_album_metadata_if_track_metadata_not_found():
+def test_last_fm_metadata_finder_queries_album_metadata_if_track_metadata_not_found():
     expected_tags = [
         "japan",
         "J-rock",
@@ -131,6 +131,77 @@ def test_last_fm_metadata_finder_queies_album_metadata_if_track_metadata_not_fou
     )
 
 
+def test_last_fm_metadata_finder_queries_album_metadata_if_track_metadata_has_different_album():
+    expected_tags = [
+        'idol',
+        'j-pop',
+        'Progressive rock',
+        'rock',
+        'Psychedelic Rock',
+        'aidoru',
+        'japanese',
+        'alternative',
+        'psychedelic',
+        'j-idol',
+        'experimental',
+        'female vocalists',
+        'Grunge',
+        'prog',
+        'weird',
+        'girls',
+        'JPop',
+        'Progressive',
+        'psych',
+        'Asian',
+        'girl band',
+        'girl group',
+        'Girl Groups',
+        'tokyo',
+        'girlband',
+        'asian music',
+        'idol group',
+        'Asian Pop',
+        'psychedelic aidoru rock',
+        'sailor suit',
+        'japanese idol girl groups',
+        'weirdol',
+        'alt-idol',
+        'idol-punk',
+        'idol punk',
+        'gakkyoku-ha'
+    ]
+
+    # Given
+    metadata_finder = LastFMMetadataFinder()
+    extracted_metadata = ExtractedMetadata(
+        "low tide",
+        "BELLRING少女ハート",
+        2,
+        "She's Rain"
+    )
+
+    # When
+    found_metadata = metadata_finder.find_metadata(extracted_metadata)
+
+    # Then
+    assert_that(
+        found_metadata.artist,
+        equal_to_ignoring_case(extracted_metadata.artist)
+    )
+    assert_that(
+        found_metadata.album,
+        equal_to_ignoring_case("She's Rain")
+    )
+    assert_that(
+        found_metadata.tags,
+        contains_inanyorder(*expected_tags)
+    )
+    assert_that(
+        found_metadata.track_name,
+        equal_to_ignoring_case("low tide")
+    )
+
+
 def test_last_fm_metadata_finder_finds_original_album_data_given_compilation():
     expected_tags = ["Hip-Hop", "80s", "rap", "needleontherecord", "NYC"]
 
@@ -144,7 +215,7 @@ def test_last_fm_metadata_finder_finds_original_album_data_given_compilation():
     )
 
     # When
-    found_metadata = metadata_finder.find_metadata(extracted_metadata)
+    found_metadata = metadata_finder.find_compilation_metadata(extracted_metadata)
 
     # Then
     assert_that(

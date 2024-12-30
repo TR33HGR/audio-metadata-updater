@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from difflib import SequenceMatcher
 import os
-from typing import List
+from typing import Callable, List
 import requests
 from audio_metadata_updater.metadata_extractor import ExtractedMetadata
 
@@ -40,6 +40,26 @@ class LastFMMetadataFinder():
         }
 
     def find_metadata(self, track: ExtractedMetadata) -> LastFMMetadata:
+        return self._find_metadata(
+            track,
+            self._get_album
+        )
+
+    def find_compilation_metadata(
+        self,
+        track: ExtractedMetadata
+    ) -> LastFMMetadata:
+        return self._find_metadata(
+            track,
+            lambda album, _:
+                self._get_compilation_album(album)
+        )
+
+    def _find_metadata(
+        self,
+        track: ExtractedMetadata,
+        resolve_album_mismatch: Callable[[str, str], str]
+    ) -> LastFMMetadata:
         params = self._base_request_params
         params["method"] = "track.getInfo"
         params["artist"] = track.artist
@@ -55,6 +75,7 @@ class LastFMMetadataFinder():
             print(f"Error: find metadata: {response.status_code}")
             return None
 
+        print(response.json())
         metadata = response.json().get("track")
         if metadata is None:
             return None
@@ -65,6 +86,11 @@ class LastFMMetadataFinder():
             if metadata.get("album") \
             else self._get_album(track.album, artist)
 
+        if not same_album(track.album, album):
+            album = resolve_album_mismatch(track.album, artist)
+            if album is None:
+                return None
+
         track_name = metadata.get("name")
 
         tags = [tag["name"] for tag in metadata.get("toptags").get("tag")]
@@ -72,11 +98,6 @@ class LastFMMetadataFinder():
             tags = self._get_album_tags(album, artist)
         if len(tags) == 0:
             tags = self._get_artist_tags(artist)
-
-        if not same_album(track.album, album):
-            album = self._get_compilation_album(track.album)
-            if album is None:
-                return None
 
         return LastFMMetadata(
             artist,
