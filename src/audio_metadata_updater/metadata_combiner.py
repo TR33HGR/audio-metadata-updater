@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from audio_metadata_updater.discogs_metadata_finder import DiscogsMetadata
-from audio_metadata_updater.last_fm_metadata_finder import LastFMMetadata, filter_tags
+from audio_metadata_updater.last_fm_metadata_finder \
+    import LastFMMetadata, filter_tags
 
 
 @dataclass

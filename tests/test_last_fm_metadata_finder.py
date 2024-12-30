@@ -4,7 +4,8 @@ from hamcrest import \
   equal_to_ignoring_case, \
   is_
 
-from audio_metadata_updater.last_fm_metadata_finder import LastFMMetadataFinder, filter_tags
+from audio_metadata_updater.last_fm_metadata_finder \
+  import LastFMMetadataFinder, filter_tags
 from audio_metadata_updater.metadata_extractor import ExtractedMetadata
 
 
@@ -43,7 +44,17 @@ def test_last_fm_metadata_finder_finds_metadata_given_extracted_metadata():
 
 
 def test_last_fm_metadata_finder_finds_tags_from_artist_if_no_track_tags_found():
-    expected_tags = ["japan", "J-rock", "J-Emo", "japanese", "j-alternative rock", "j-shoegaze", "j-dream pop", "alt-idol", "j-pixie"]
+    expected_tags = [
+        "japan",
+        "J-rock",
+        "J-Emo",
+        "japanese",
+        "j-alternative rock",
+        "j-shoegaze",
+        "j-dream pop",
+        "alt-idol",
+        "j-pixie"
+      ]
 
     # Given
     metadata_finder = LastFMMetadataFinder()
@@ -77,7 +88,17 @@ def test_last_fm_metadata_finder_finds_tags_from_artist_if_no_track_tags_found()
 
 
 def test_last_fm_metadata_finder_queies_album_metadata_if_track_metadata_not_found():
-    expected_tags = ["japan", "J-rock", "J-Emo", "japanese", "j-alternative rock", "j-shoegaze", "j-dream pop", "alt-idol", "j-pixie"]
+    expected_tags = [
+        "japan",
+        "J-rock",
+        "J-Emo",
+        "japanese",
+        "j-alternative rock",
+        "j-shoegaze",
+        "j-dream pop",
+        "alt-idol",
+        "j-pixie"
+    ]
 
     # Given
     metadata_finder = LastFMMetadataFinder()
@@ -215,10 +236,28 @@ def test_last_fm_metadata_finder_tags_filter_formats_tags_to_title_case():
 
 
 def test_last_fm_metadata_finder_tags_filter_removes_country_from_tags():
-    expected_tags = ["J-Rock", "J-Emo", "J-Alternative Rock", "J-Shoegaze", "J-Dream Pop", "Alt-Idol", "J-Pixie"]
+    expected_tags = [
+        "J-Rock",
+        "J-Emo",
+        "J-Alternative Rock",
+        "J-Shoegaze",
+        "J-Dream Pop",
+        "Alt-Idol",
+        "J-Pixie"
+    ]
 
     # Given
-    found_tags = ["japan", "J-rock", "J-Emo", "japanese", "j-alternative rock", "j-shoegaze", "j-dream pop", "alt-idol", "j-pixie"]
+    found_tags = [
+        "japan",
+        "J-rock",
+        "J-Emo",
+        "japanese",
+        "j-alternative rock",
+        "j-shoegaze",
+        "j-dream pop",
+        "alt-idol",
+        "j-pixie"
+    ]
 
     # When
     filtered_tags = filter_tags(found_tags)

@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 from difflib import SequenceMatcher
-import difflib
 import os
 from typing import List, Tuple
 import discogs_client
@@ -24,7 +23,7 @@ def same_album(album1: str, album2: str, threshold=0.7) -> bool:
 
 
 def get_album(title: str) -> str:
-    return title if not " - " in title else title.split(" - ")[1]
+    return title if " - " not in title else title.split(" - ")[1]
 
 
 def oldest_release(releases):
@@ -80,6 +79,11 @@ class DiscogsMetadataFinder():
             track_album,
             type="release"
         )
-        releases = [release for release in releases if same_album(get_album(release.title), track_album)]
+        releases = [
+            release for release in releases
+            if same_album(
+                get_album(release.title), track_album
+            )
+        ]
         release = oldest_release(releases)
         return release.title, release.tracklist

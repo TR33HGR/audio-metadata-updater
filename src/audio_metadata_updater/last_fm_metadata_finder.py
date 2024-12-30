@@ -61,14 +61,16 @@ class LastFMMetadataFinder():
 
         artist = metadata.get("artist").get("name")
 
-        album = metadata.get("album").get("title") if metadata.get("album") else self._get_album(track.album, artist)
+        album = metadata.get("album").get("title") \
+            if metadata.get("album") \
+            else self._get_album(track.album, artist)
 
         track_name = metadata.get("name")
 
         tags = [tag["name"] for tag in metadata.get("toptags").get("tag")]
-        if len(tags) is 0:
+        if len(tags) == 0:
             tags = self._get_album_tags(album, artist)
-        if len(tags) is 0:
+        if len(tags) == 0:
             tags = self._get_artist_tags(artist)
 
         if not same_album(track.album, album):
@@ -157,6 +159,7 @@ class LastFMMetadataFinder():
 
         metadata = response.json().get("toptags")
         return [tag["name"] for tag in metadata.get("tag")]
+
 
 def filter_tags(tags: List[str]) -> List[str]:
     filtered_tags = []
