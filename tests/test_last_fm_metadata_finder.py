@@ -9,7 +9,7 @@ from audio_metadata_updater.last_fm_metadata_finder \
 from audio_metadata_updater.metadata_extractor import ExtractedMetadata
 
 
-def test_last_fm_metadata_finder_finds_metadata_given_extracted_metadata():
+def test_finds_metadata_given_extracted_metadata():
     expected_tags = ["k-pop", "Kpop", "electronic", "pop", "Electroclash"]
 
     # Given
@@ -43,7 +43,7 @@ def test_last_fm_metadata_finder_finds_metadata_given_extracted_metadata():
     )
 
 
-def test_last_fm_metadata_finder_finds_tags_from_artist_if_no_track_tags_found():
+def test_finds_tags_from_artist_if_no_track_tags_found():
     expected_tags = [
         "japan",
         "J-rock",
@@ -87,7 +87,7 @@ def test_last_fm_metadata_finder_finds_tags_from_artist_if_no_track_tags_found()
     )
 
 
-def test_last_fm_metadata_finder_queries_album_metadata_if_track_metadata_not_found():
+def test_queries_album_metadata_if_track_metadata_not_found():
     expected_tags = [
         "japan",
         "J-rock",
@@ -131,7 +131,7 @@ def test_last_fm_metadata_finder_queries_album_metadata_if_track_metadata_not_fo
     )
 
 
-def test_last_fm_metadata_finder_queries_album_metadata_if_track_metadata_has_different_album():
+def test_queries_album_metadata_if_track_metadata_has_different_album():
     expected_tags = [
         'idol',
         'j-pop',
@@ -202,7 +202,7 @@ def test_last_fm_metadata_finder_queries_album_metadata_if_track_metadata_has_di
     )
 
 
-def test_last_fm_metadata_finder_finds_original_album_data_given_compilation():
+def test_finds_original_album_data_given_compilation():
     expected_tags = ["Hip-Hop", "80s", "rap", "needleontherecord", "NYC"]
 
     # Given
@@ -215,7 +215,9 @@ def test_last_fm_metadata_finder_finds_original_album_data_given_compilation():
     )
 
     # When
-    found_metadata = metadata_finder.find_compilation_metadata(extracted_metadata)
+    found_metadata = metadata_finder.find_compilation_metadata(
+      extracted_metadata
+    )
 
     # Then
     assert_that(
@@ -238,7 +240,7 @@ def test_last_fm_metadata_finder_finds_original_album_data_given_compilation():
     )
 
 
-def test_last_fm_metadata_finder_returns_none_if_track_not_found():
+def test_returns_none_if_track_not_found():
     # Given
     metadata_finder = LastFMMetadataFinder()
     extracted_metadata = ExtractedMetadata(
@@ -258,7 +260,7 @@ def test_last_fm_metadata_finder_returns_none_if_track_not_found():
     )
 
 
-def test_last_fm_metadata_finder_tags_filter_removes_duplicate_tags():
+def test_tags_filter_removes_duplicate_tags():
     expected_tags = ["K-Pop"]
 
     # Given
@@ -274,7 +276,7 @@ def test_last_fm_metadata_finder_tags_filter_removes_duplicate_tags():
     )
 
 
-def test_last_fm_metadata_finder_tags_filter_favours_more_specific_tags():
+def test_tags_filter_favours_more_specific_tags():
     expected_tags = ["K-Pop", "Electroclash"]
 
     # Given
@@ -290,7 +292,7 @@ def test_last_fm_metadata_finder_tags_filter_favours_more_specific_tags():
     )
 
 
-def test_last_fm_metadata_finder_tags_filter_formats_tags_to_title_case():
+def test_tags_filter_formats_tags_to_title_case():
     expected_tags = ["K-Pop"]
 
     # Given
@@ -306,7 +308,7 @@ def test_last_fm_metadata_finder_tags_filter_formats_tags_to_title_case():
     )
 
 
-def test_last_fm_metadata_finder_tags_filter_removes_country_from_tags():
+def test_tags_filter_removes_country_from_tags():
     expected_tags = [
         "J-Rock",
         "J-Emo",

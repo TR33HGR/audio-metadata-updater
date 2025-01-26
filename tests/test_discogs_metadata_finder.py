@@ -9,7 +9,7 @@ from audio_metadata_updater.discogs_metadata_finder \
     import DiscogsMetadataFinder
 
 
-def test_discogs_metadata_finder_finds_metadata_given_extracted_metadata():
+def test_finds_metadata_given_extracted_metadata():
     expected_genres = ["Pop"]
     expected_styles = ["K-pop"]
 
@@ -52,7 +52,7 @@ def test_discogs_metadata_finder_finds_metadata_given_extracted_metadata():
     )
 
 
-def test_discogs_metadata_finder_finds_original_album_data_given_compilation():
+def test_finds_original_album_data_given_compilation():
     expected_genres = ["Hip Hop"]
     expected_styles = []
 
@@ -95,7 +95,7 @@ def test_discogs_metadata_finder_finds_original_album_data_given_compilation():
     )
 
 
-def test_discogs_metadata_finder_returns_none_if_track_not_found():
+def test_returns_none_if_track_not_found():
     # Given
     metadata_finder = DiscogsMetadataFinder()
     extracted_metadata = ExtractedMetadata(
